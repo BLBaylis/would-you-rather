@@ -8,7 +8,7 @@ import middleware from './middleware';
 import App from './App';
 import './index.css';
 
-const store = createStore((state = {}, action) => ({polls: reducers(state.polls, action)}), middleware)
+const store = createStore(reducers, middleware)
 
 ReactDOM.render(
   <React.StrictMode>
