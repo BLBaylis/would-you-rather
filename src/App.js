@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
 
-import {handleInitialData} from './actions'
+import {handleInitialData, handleLogin, handleLogout} from './actions'
 import './App.css';
 
 class App extends Component {
@@ -13,13 +13,18 @@ class App extends Component {
 
   componentDidMount() {
     this.props.handleInitialData();
+    this.props.handleLogin('brad');
   };
 
   render() {
     const {showPolls, showUsers} = this.state;
-    const {polls, users} = this.props;
+    const {polls, users, authedUser, handleLogin, handleLogout} = this.props;
     return (
       <div className="App">
+        <p>{authedUser ? `Logged in as ${authedUser}` : 'Logged out'}</p>
+        {authedUser ? <button onClick = {handleLogout}>Log out</button> : <button onClick = {() => handleLogin('brad')}>Log In</button>}
+        <button onClick = {() => this.setState(({ showPolls }) => ({showPolls: !showPolls}))}>Toggle Polls</button>
+        <button onClick = {() => this.setState(({ showUsers }) => ({showUsers: !showUsers}))}>Toggle Users</button>
         {showPolls && (
           <>
             <h2>Polls</h2>
@@ -40,7 +45,6 @@ class App extends Component {
           </>
           )
         }
-        <button onClick = {() => this.setState(({ showPolls }) => ({showPolls: !showPolls}))}>Toggle Polls</button>
         {showUsers && (
           <>
             <h2>Users</h2>
@@ -58,12 +62,13 @@ class App extends Component {
           </>
           )
         }
-        <button onClick = {() => this.setState(({ showUsers }) => ({showUsers: !showUsers}))}>Toggle Users</button>
       </div>
     );
   };
 };
 
-const mapStateToProps = ({polls, users}) => ({polls, users});
+const mapStateToProps = ({polls, users, authedUser}) => ({polls, users, authedUser});
 
-export default connect(mapStateToProps, {handleInitialData})(App);
+
+
+export default connect(mapStateToProps, {handleInitialData, handleLogin, handleLogout})(App);
