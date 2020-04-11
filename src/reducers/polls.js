@@ -1,20 +1,20 @@
-import {RECEIVE_INITIAL_POLLS, ANSWER_POLL} from '../actions/polls'
+import {RECEIVE_INITIAL_POLLS, ADD_USER_TO_POLL} from '../actions/polls'
 
 const polls = (state = {}, action) => {
   switch (action.type) {
     case RECEIVE_INITIAL_POLLS:
       return {...state, ...action.polls}
-    case ANSWER_POLL:
+    case ADD_USER_TO_POLL:
       return {
         ...state,
-        [action.id]: {
-          ...[action.id],
+        [action.pollId]: {
+          ...state[action.pollId],
           [action.selectedAnswer]: {
-            ...[action.id.selectedAnswer],
-            votes: [/*user name*/]
+            ...state[action.pollId][action.selectedAnswer],
+            votes: [...state[action.pollId][action.selectedAnswer].votes, action.userId]
+          }
         }
       }
-    }
     default:
       return state
   }
