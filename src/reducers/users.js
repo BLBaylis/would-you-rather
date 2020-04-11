@@ -1,5 +1,29 @@
 import {RECEIVE_INITIAL_USERS, ADD_POLL_TO_USER} from '../actions/users'
 
+const answers = (answersState = {}, {type, pollId, selectedAnswer}) => {
+  switch (type) {
+    case ADD_POLL_TO_USER:
+      return {
+          ...answersState,
+          [pollId]: selectedAnswer
+      }
+    default:
+      return answersState
+    }
+}
+
+const user = (userState = {}, action) => {
+  switch (action.type) {
+    case ADD_POLL_TO_USER:
+      return {
+        ...userState,
+        answers: answers(userState.answers, action)
+      }
+    default:
+      return userState
+    }
+}
+
 const users = (state = {}, action) => {
   switch (action.type) {
     case RECEIVE_INITIAL_USERS:
@@ -7,13 +31,7 @@ const users = (state = {}, action) => {
     case ADD_POLL_TO_USER:
       return {
         ...state,
-        [action.userId]: {
-          ...state[action.userId],
-          answers: {
-            ...state[action.userId].answers,
-            [action.pollId]: action.selectedAnswer
-          }
-        }
+        [action.userId]: user(state[action.userId], action)
       }
     default:
       return state
