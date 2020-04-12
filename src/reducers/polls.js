@@ -1,9 +1,9 @@
-import {RECEIVE_INITIAL_POLLS, ADD_USER_TO_POLL, UPDATE_USER_IN_POLL} from '../actions/polls'
+import {RECEIVE_INITIAL_POLLS, ADD_ANSWER_TO_POLL, UPDATE_USER_IN_POLL, CREATE_NEW_POLL} from '../actions/polls'
 
 const option = (optionState = {}, {type, userId}) => {
   const votes = optionState.votes
   switch (type) {
-    case ADD_USER_TO_POLL:
+    case ADD_ANSWER_TO_POLL:
       return {
         ...optionState,
         votes: votes.concat(userId)
@@ -21,7 +21,7 @@ const option = (optionState = {}, {type, userId}) => {
 const poll = (pollState = {}, action) => {
   const {type, selectedAnswer} = action
   switch (type) {
-    case ADD_USER_TO_POLL:
+    case ADD_ANSWER_TO_POLL:
       return {
         ...pollState,
         [selectedAnswer]: option(pollState[selectedAnswer], action)
@@ -33,6 +33,8 @@ const poll = (pollState = {}, action) => {
         [selectedAnswer]: option(pollState[selectedAnswer], action),
         [unselectedAnswer]: option(pollState[unselectedAnswer], action)
       }
+    case CREATE_NEW_POLL: 
+      return action.poll;
     default:
       return pollState
   }
@@ -43,8 +45,9 @@ const polls = (state = {}, action) => {
   switch (type) {
     case RECEIVE_INITIAL_POLLS:
       return {...state, ...action.polls}
-    case ADD_USER_TO_POLL:
+    case ADD_ANSWER_TO_POLL:
     case UPDATE_USER_IN_POLL:
+    case CREATE_NEW_POLL:
       return {
         ...state,
         [pollId]: poll(state[pollId], action)

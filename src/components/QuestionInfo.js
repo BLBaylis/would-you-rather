@@ -1,10 +1,10 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import { castInitialVote, changePollAnswer } from "../actions";
+import { handleInitialVote, changePollAnswer } from "../actions";
 
-const QuestionInfo = ({ castInitialVote, changePollAnswer, optionOneLabel, optionTwoLabel, authedUser, pollId, authedUserVote }) => {
+const QuestionInfo = ({ handleInitialVote, changePollAnswer, optionOneLabel, optionTwoLabel, authedUser, pollId, authedUserVote }) => {
   const createClickHandler = option => {
-    return authedUserVote ? () => changePollAnswer(authedUser, pollId, option) : () => castInitialVote(authedUser, pollId, option)
+    return authedUserVote ? () => changePollAnswer(authedUser, pollId, option) : () => handleInitialVote(authedUser, pollId, option)
   }
   return (
     <div style ={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '2rem'}}>
@@ -18,4 +18,4 @@ const QuestionInfo = ({ castInitialVote, changePollAnswer, optionOneLabel, optio
 
 const mapStateToProps = ({ authedUser }) => ({ authedUser })
 
-export default connect(mapStateToProps, { castInitialVote, changePollAnswer })(QuestionInfo)
+export default connect(mapStateToProps, { handleInitialVote, changePollAnswer })(QuestionInfo)

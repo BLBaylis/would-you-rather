@@ -3,13 +3,14 @@ import {connect} from 'react-redux'
 
 import LeaderBoard from './components/LeaderBoard'
 import PollsList from './components/PollsList'
+import NewPoll from './components/NewPoll';
 import {handleInitialData, handleLogin, handleLogout} from './actions'
 import './App.css';
 
 class App extends Component {
 
   state = {
-    view: 'leaderboard'
+    view: 'new poll'
   }
 
   componentDidMount() {
@@ -24,10 +25,17 @@ class App extends Component {
     const {authedUser, handleLogin, handleLogout} = this.props;
     return (
       <div className="App">
-        <p>{authedUser ? `Logged in as ${authedUser}` : 'Logged out'}</p>
-        {authedUser ? <button onClick = {handleLogout}>Log out</button> : <button onClick = {() => handleLogin('owenwest')}>Log In</button>}
-        <button onClick = {() => this.switchView("home")}>Home</button>
-        <button onClick = {() => this.switchView("leaderboard")}>Leaderboard</button>
+        <div>
+          <p>{authedUser ? `Logged in as ${authedUser}` : 'Logged out'}</p>
+          {authedUser ? <button onClick = {handleLogout}>Log out</button> : <button onClick = {() => handleLogin('owenwest')}>Log In</button>}
+        </div>
+        <div>
+          <button onClick = {() => this.switchView("home")}>Home</button>
+          <button onClick = {() => this.switchView("leaderboard")}>Leaderboard</button>
+          <button onClick = {() => this.switchView("new poll")}>Post question</button>
+        </div>
+        
+        {authedUser && view === 'new poll' && <NewPoll/>}
         {authedUser && view === 'leaderboard' && <LeaderBoard />}
         {authedUser && view === 'home' && (
           <>

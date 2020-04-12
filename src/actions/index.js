@@ -1,6 +1,11 @@
-import {_getQuestions as getQuestions, _getUsers as getUsers, _saveQuestionAnswer as postPollAnswer} from '../_DATA'
-import {receiveInitialPolls, addUserToPoll, updateUserInPoll} from './polls'
-import {receiveInitialUsers, addPollToUser, updatePollInUser} from './users'
+import {
+  _getQuestions as getQuestions,
+  _getUsers as getUsers, 
+  _saveQuestionAnswer as postPollAnswer,
+  _saveQuestion as postNewQuestion
+} from '../_DATA'
+import {receiveInitialPolls, addAnswerToPoll, updateUserInPoll, createNewPoll} from './polls'
+import {receiveInitialUsers, addAnswerToUser, updatePollInUser, addQuestionToUser} from './users'
 import {userLogin, userLogout} from './authedUser'
 
 export const handleInitialData = () => async dispatch => {
@@ -19,14 +24,14 @@ export const handleLogin = id => async dispatch => {
 
 export { userLogout as handleLogout} 
 
-export const castInitialVote = (userId, pollId, answer) => async dispatch => {
+export const handleInitialVote = (userId, pollId, answer) => async dispatch => {
   await postPollAnswer({
     authedUser: userId,
     qid: pollId, 
     answer
   });
-  dispatch(addUserToPoll(userId, pollId, answer))
-  dispatch(addPollToUser(userId, pollId, answer))
+  dispatch(addAnswerToPoll(userId, pollId, answer))
+  dispatch(addAnswerToUser(userId, pollId, answer))
 }
 
 export const changePollAnswer = (userId, pollId, answer) => async dispatch => {
@@ -37,4 +42,14 @@ export const changePollAnswer = (userId, pollId, answer) => async dispatch => {
   });
   dispatch(updateUserInPoll(userId, pollId, answer))
   dispatch(updatePollInUser(userId, pollId, answer))
+}
+
+export const handleNewPollCreation = (author, optionOneText, optionTwoText) => async dispatch => {
+  const newPoll = await postNewQuestion({
+    author,
+    optionOneText,
+    optionTwoText
+  })
+  dispatch(createNewPoll(newPoll.id, newPoll))
+  dispatch(addQuestionToUser(newPoll.id, author))
 }
