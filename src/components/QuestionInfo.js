@@ -1,46 +1,44 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import { handleInitialVote, changePollAnswer, handleRemoveVote } from "../actions";
 
-const QuestionInfo = ({ handleInitialVote, changePollAnswer, optionOneLabel, optionTwoLabel, authedUser, pollId, authedUserVote, polls, handleRemoveVote }) => {
+const VoteButton = ({ handleClick, label }) => <button onClick = {handleClick} style = {{ width: '140px'}}>{label}</button>
+
+const VoteStatistics = ({option, votes}) => {
+  const total = votes.optionOne + votes.optionTwo;
+  return <p>{votes[option]/total * 100}% - {votes[option]} out of {total}</p>
+}
+
+const QuestionInfo = ({ pollId, authedUser, authedUserVote, optionInfo, dispatches }) => {
 
   const createClickHandler = option => {
-    let handler;
+    const {handleInitialVote, changePollAnswer, handleRemoveVote} = dispatches;
     if (!authedUserVote) {
-      handler =  () => handleInitialVote(authedUser, pollId, option)
+      return () => handleInitialVote(authedUser, pollId, option)
     } else if (authedUserVote === option) {
-      handler =  () => handleRemoveVote(authedUser, pollId)
+      return () => handleRemoveVote(authedUser, pollId)
     } else {
-      handler =  () => changePollAnswer(authedUser, pollId, option)
+      return () => changePollAnswer(authedUser, pollId, option)
     }
-    //console.log(option)
-    //console.log('handler', handler)
-    return handler
   }
-  //console.log(authedUserVote)
-  const optionOneVotes = polls[pollId].optionOne.votes.length;
-  const optionTwoVotes = polls[pollId].optionTwo.votes.length;
-  const total = optionOneVotes + optionTwoVotes
+
+  const votes = {
+    optionOne: optionInfo.optionOne.votes.length,
+    optionTwo: optionInfo.optionTwo.votes.length
+  }
+
   return (
     <div style ={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '2rem'}}>
       <div style = {{width: '100%'}}>Would you rather....</div>
       <div>
-        <button onClick = {createClickHandler("optionOne")} style = {{ width: '140px'}}>{optionOneLabel}</button>
-        {authedUserVote && (
-          <p>{optionOneVotes/total * 100}% - {optionOneVotes} out of {total}</p>
-        )}
+        <VoteButton handleClick = {createClickHandler("optionOne")} label = {optionInfo.optionOne.text}/>
+        {authedUserVote && <VoteStatistics option = 'optionOne' votes = {votes} />}
       </div>
       <strong style = {{ margin: '0 10px'}}>or</strong>
       <div>
-        <button onClick = {createClickHandler("optionTwo")} style = {{ width: '140px'}}>{optionTwoLabel}</button>
-        {authedUserVote && (
-          <p>{optionTwoVotes/total * 100}% - {optionTwoVotes} out of {total}</p>
-        )}
+        <VoteButton handleClick = {createClickHandler("optionTwo")} label = {optionInfo.optionTwo.text}/>
+        {authedUserVote && <VoteStatistics option = 'optionTwo' votes = {votes} />}
       </div>
     </div>
   )
 }
 
-const mapStateToProps = ({ authedUser, polls }) => ({ authedUser, polls })
-
-export default connect(mapStateToProps, { handleInitialVote, changePollAnswer, handleRemoveVote })(QuestionInfo)
+export default QuestionInfo

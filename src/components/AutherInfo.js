@@ -1,6 +1,6 @@
 import React from 'react'
 
-const AutherInfo = ({ author, timestamp}) => {
+const AutherInfo = ({ author, timestamp }) => {
   const timestampDateObj = new Date(timestamp)
   const submissionDate = timestampDateObj.toLocaleDateString('en-UK')
   const submissionTime = timestampDateObj.toLocaleTimeString('en-UK')

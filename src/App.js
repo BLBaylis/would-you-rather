@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
-import {Route, Link} from 'react-router-dom'
+import {handleInitialData, handleLogin, handleLogout} from './actions'
 
+import {Route, Link} from 'react-router-dom'
 import LeaderBoard from './components/LeaderBoard'
 import PollsList from './components/PollsList'
 import NewPoll from './components/NewPoll';
 import Poll from './components/Poll'
-import {handleInitialData, handleLogin, handleLogout} from './actions'
 import './App.css';
 
 class App extends Component {
@@ -15,8 +15,6 @@ class App extends Component {
     this.props.handleInitialData();
     this.props.handleLogin('owenwest');
   };
-
-  switchView = newView => this.setState({view : newView})
 
   render() {
     const {authedUser, users, handleLogin, handleLogout} = this.props;
@@ -35,8 +33,6 @@ class App extends Component {
         <Route path = '/leaderboard' component = {LeaderBoard} />
         <Route path = '/new' component = {NewPoll} />
         <Route path = '/question/:id' component = {Poll} />
-        <div style = {{ height: '128px', width: '128px', borderRadius: '50%', backgroundImage: this.props.users['sarahedo'] ? `url("${this.props.users['sarahedo'].avatarURL}")` : 'none'}} >
-        </div>
       </div>
     );
   };
