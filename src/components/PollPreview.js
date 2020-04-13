@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 
 import AuthorInfo from './AutherInfo'
+import { Link } from 'react-router-dom'
 
 export const PollPreview = ({ authedUser, users, poll }) => {
   const {author, timestamp, optionOne, optionTwo, id: pollId} = poll
@@ -9,7 +10,7 @@ export const PollPreview = ({ authedUser, users, poll }) => {
     return null
   }
   return (
-    <div style = {{ display: 'inline-flex', flexDirection: 'column', margin: '1.5rem'}}>
+    <Link to = {`question/${pollId}`} style = {{ display: 'inline-flex', flexDirection: 'column', margin: '1.5rem'}}>
       <div style = {{display: 'inline-flex', flexWrap: 'flex', border: '1px solid', marginBottom: 0}}>
         <AuthorInfo author = {users[author]} timestamp = {timestamp}/>
         <div style ={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '2rem'}}>
@@ -27,7 +28,7 @@ export const PollPreview = ({ authedUser, users, poll }) => {
         padding: '1rem 0',
         cursor: 'pointer'
       }}>Show full details</button>
-    </div>
+    </Link>
   )
 }
 

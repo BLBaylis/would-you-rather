@@ -4,17 +4,22 @@ import {connect} from 'react-redux'
 import AuthorInfo from './AutherInfo'
 import QuestionInfo from './QuestionInfo';
 
-export const Poll = ({ authedUser, users, poll }) => {
-  const {author, timestamp, optionOne, optionTwo, id: pollId} = poll;
-  const authedUserVote  = users[authedUser].answers[pollId] || null
+export const Poll = ({ authedUser, users, polls, match }) => {
+  const {id} = match.params
+  if (!authedUser) {
+    return null
+  }
+  const poll = polls[id]
+  const {author, timestamp, optionOne, optionTwo} = poll;
+  const authedUserVote  = users[authedUser].answers[id] || null
   return (
     <div style = {{ display: 'inline-block'}}>
       <div style = {{display: 'inline-flex', border: '1px solid', margin: '1.5rem', marginBottom: authedUserVote ? 0 : '1.5rem'}}>
-        <AuthorInfo author = {author} timestamp = {timestamp}/>
+        <AuthorInfo author = {users[author]} timestamp = {timestamp}/>
         <QuestionInfo 
           optionOneLabel = {optionOne.text} 
           optionTwoLabel = {optionTwo.text} 
-          pollId = {pollId} 
+          pollId = {id} 
           authedUserVote = {authedUserVote}
         />
       </div>
@@ -30,6 +35,6 @@ export const Poll = ({ authedUser, users, poll }) => {
   )
 }
 
-const mapStateToProps = ({authedUser, users}) => ({authedUser, users})
+const mapStateToProps = ({authedUser, users, polls}) => ({authedUser, users, polls})
 
 export default connect(mapStateToProps)(Poll);

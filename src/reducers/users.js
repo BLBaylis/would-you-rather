@@ -1,13 +1,24 @@
-import {RECEIVE_INITIAL_USERS, ADD_ANSWER_TO_USER, UPDATE_POLL_IN_USER, ADD_QUESTION_TO_USER} from '../actions/users'
+import {
+  RECEIVE_INITIAL_USERS, 
+  ADD_ANSWER_TO_USER, 
+  UPDATE_ANSWER_IN_USER, 
+  ADD_QUESTION_TO_USER,
+  REMOVE_ANSWER_FROM_USER
+} from '../actions/users'
 
 const answers = (answersState = {}, {type, pollId, selectedAnswer}) => {
   switch (type) {
     case ADD_ANSWER_TO_USER:
-    case UPDATE_POLL_IN_USER:
+    case UPDATE_ANSWER_IN_USER:
       return {
           ...answersState,
           [pollId]: selectedAnswer
       }
+    case REMOVE_ANSWER_FROM_USER:
+      const {[pollId]: pid, ...pollsToKeep} = answersState
+      console.log('answersState', answersState)
+      console.log('pollsToKeep', pollsToKeep)
+      return pollsToKeep
     default:
       return answersState
     }
@@ -16,7 +27,9 @@ const answers = (answersState = {}, {type, pollId, selectedAnswer}) => {
 const user = (userState = {}, action) => {
   switch (action.type) {
     case ADD_ANSWER_TO_USER:
-    case UPDATE_POLL_IN_USER:
+    case UPDATE_ANSWER_IN_USER:
+    case REMOVE_ANSWER_FROM_USER:
+      console.log('userState', userState)
       return {
         ...userState,
         answers: answers(userState.answers, action)
@@ -36,7 +49,8 @@ const users = (state = {}, action) => {
     case RECEIVE_INITIAL_USERS:
       return {...state, ...action.users}
     case ADD_ANSWER_TO_USER:
-    case UPDATE_POLL_IN_USER:
+    case UPDATE_ANSWER_IN_USER:
+    case REMOVE_ANSWER_FROM_USER:
     case ADD_QUESTION_TO_USER:
       return {
         ...state,

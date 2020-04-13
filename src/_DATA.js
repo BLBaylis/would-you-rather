@@ -200,3 +200,36 @@ export function _saveQuestionAnswer ({ authedUser, qid, answer }) {
     }, 500)
   })
 }
+
+export function _removeAnswer ({ authedUser, qid }) {
+  return new Promise((res, rej) => {
+    setTimeout(() => {
+      const { [qid]: pollToRemove, ...pollsToKeep } = users[authedUser].answers
+      users = {
+        ...users,
+        [authedUser]: {
+          ...users[authedUser],
+          answers: pollsToKeep
+        }
+      }
+
+      questions = {
+        ...questions,
+        [qid]: {
+          ...questions[qid],
+          optionOne: {
+            ...questions[qid]['optionOne'],
+            votes: questions[qid]['optionOne'].votes.filter(userId => userId !== authedUser)
+          },
+          optionTwo: {
+            ...questions[qid]['optionTwo'],
+            votes: questions[qid]['optionTwo'].votes.filter(userId => userId !== authedUser)
+          },
+          
+        }
+      }
+
+      res()
+    }, 500)
+  })
+}

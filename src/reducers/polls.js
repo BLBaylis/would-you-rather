@@ -1,37 +1,57 @@
-import {RECEIVE_INITIAL_POLLS, ADD_ANSWER_TO_POLL, UPDATE_USER_IN_POLL, CREATE_NEW_POLL} from '../actions/polls'
+import {
+  RECEIVE_INITIAL_POLLS, 
+  ADD_ANSWER_TO_POLL, 
+  UPDATE_USER_IN_POLL, 
+  CREATE_NEW_POLL,
+  REMOVE_VOTE_FROM_POLL
+} from '../actions/polls'
 
-const option = (optionState = {}, {type, userId}) => {
+const option = optionType => (optionState = {}, action) => {
+  const {type, selectedAnswer, userId} = action;
   const votes = optionState.votes
   switch (type) {
     case ADD_ANSWER_TO_POLL:
+      if (selectedAnswer !== optionType) {
+        return optionState
+      }
       return {
         ...optionState,
         votes: votes.concat(userId)
       }
     case UPDATE_USER_IN_POLL:
+      if (selectedAnswer !== optionType) {
+        return {
+          ...optionState,
+          votes: votes.includes(userId) ? votes.filter(existingUserId => existingUserId !== userId) : votes
+        }
+      }
       return {
         ...optionState,
-        votes: votes.includes(userId) ? votes.filter(existingUserId => existingUserId !== userId) : votes.concat(userId)
+        votes: votes.includes(userId) ? votes : votes.concat(userId)
+      }
+    case REMOVE_VOTE_FROM_POLL:
+      return {
+        ...optionState,
+        votes: votes.filter(existingUserId => existingUserId !== userId)
       }
     default:
       return optionState
   }
 }
 
+const optionOne = option('optionOne');
+const optionTwo = option('optionTwo')
+
 const poll = (pollState = {}, action) => {
-  const {type, selectedAnswer} = action
+  const {type} = action
   switch (type) {
     case ADD_ANSWER_TO_POLL:
-      return {
-        ...pollState,
-        [selectedAnswer]: option(pollState[selectedAnswer], action)
-      }
     case UPDATE_USER_IN_POLL:
-      const unselectedAnswer = selectedAnswer === "optionOne" ? "optionTwo" : "optionOne"
+    case REMOVE_VOTE_FROM_POLL:
       return {
         ...pollState,
-        [selectedAnswer]: option(pollState[selectedAnswer], action),
-        [unselectedAnswer]: option(pollState[unselectedAnswer], action)
+        optionOne: optionOne(pollState.optionOne, action),
+        optionTwo: optionTwo(pollState.optionTwo, action)
       }
     case CREATE_NEW_POLL: 
       return action.poll;
@@ -48,6 +68,7 @@ const polls = (state = {}, action) => {
     case ADD_ANSWER_TO_POLL:
     case UPDATE_USER_IN_POLL:
     case CREATE_NEW_POLL:
+    case REMOVE_VOTE_FROM_POLL:
       return {
         ...state,
         [pollId]: poll(state[pollId], action)
