@@ -8,34 +8,35 @@ import {
 
 const option = optionType => (optionState = {}, action) => {
   const {type, selectedAnswer, userId} = action;
-  const votes = optionState.votes
+  let votes = optionState.votes
   switch (type) {
+    
     case ADD_ANSWER_TO_POLL:
       if (selectedAnswer !== optionType) {
         return optionState
       }
-      return {
-        ...optionState,
-        votes: votes.concat(userId)
-      }
+      votes = votes.concat(userId)
+      break;
+
     case UPDATE_USER_IN_POLL:
       if (selectedAnswer !== optionType) {
-        return {
-          ...optionState,
-          votes: votes.includes(userId) ? votes.filter(existingUserId => existingUserId !== userId) : votes
-        }
+        votes = votes.includes(userId) ? votes.filter(existingUserId => existingUserId !== userId) : votes
+      } else {
+        votes = votes.includes(userId) ? votes : votes.concat(userId)
       }
-      return {
-        ...optionState,
-        votes: votes.includes(userId) ? votes : votes.concat(userId)
-      }
+      break;
+
     case REMOVE_VOTE_FROM_POLL:
-      return {
-        ...optionState,
-        votes: votes.filter(existingUserId => existingUserId !== userId)
-      }
+      votes = votes.filter(existingUserId => existingUserId !== userId)
+      break;
+
     default:
       return optionState
+  }
+
+  return {
+    ...optionState,
+    votes
   }
 }
 

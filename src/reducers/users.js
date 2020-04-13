@@ -16,8 +16,6 @@ const answers = (answersState = {}, {type, pollId, selectedAnswer}) => {
       }
     case REMOVE_ANSWER_FROM_USER:
       const {[pollId]: pid, ...pollsToKeep} = answersState
-      console.log('answersState', answersState)
-      console.log('pollsToKeep', pollsToKeep)
       return pollsToKeep
     default:
       return answersState
@@ -29,7 +27,6 @@ const user = (userState = {}, action) => {
     case ADD_ANSWER_TO_USER:
     case UPDATE_ANSWER_IN_USER:
     case REMOVE_ANSWER_FROM_USER:
-      console.log('userState', userState)
       return {
         ...userState,
         answers: answers(userState.answers, action)
