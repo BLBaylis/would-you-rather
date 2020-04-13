@@ -1,7 +1,10 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
+import {withRouter} from 'react-router-dom'
 
 import Poll from "./Poll";
+import PollPreview from './PollPreview'
+
 
 class PollsList extends Component {
 
@@ -13,13 +16,21 @@ class PollsList extends Component {
 
   render() {
     const {polls, users, authedUser} = this.props;
+    console.log(users)
     const {showUnanswered} = this.state;
     const answeredIds = users[authedUser] ? Object.keys(users[authedUser].answers) : [];
     const pollsToRender = showUnanswered ? Object.values(polls).filter(poll => !answeredIds.includes(poll.id)) : answeredIds.map(id => polls[id])
     return (
       <>
         <button onClick = {this.toggleShowUnanswered}>{showUnanswered ? 'Answered' : 'Unanswered'}</button>
-        <div>{polls && pollsToRender.map(poll => <Poll key = {poll.id} poll = {{...poll, author: users[poll.author]}} />)}</div>
+        {null && <div>{polls && users && pollsToRender.map(poll => <Poll key = {poll.id} poll = {{...poll, author: users[poll.author]}} />)}</div>}
+        <div>{polls && users && pollsToRender.map(poll => (
+          <PollPreview 
+            key = {poll.id} 
+            poll = {poll} 
+          />
+        ))}
+        </div>
       </>
     )
   }

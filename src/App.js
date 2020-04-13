@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
+import {Route, Link} from 'react-router-dom'
 
 import LeaderBoard from './components/LeaderBoard'
 import PollsList from './components/PollsList'
 import NewPoll from './components/NewPoll';
+import Poll from './components/Poll'
 import {handleInitialData, handleLogin, handleLogout} from './actions'
 import './App.css';
 
 class App extends Component {
-
-  state = {
-    view: 'new poll'
-  }
 
   componentDidMount() {
     this.props.handleInitialData();
@@ -21,28 +19,22 @@ class App extends Component {
   switchView = newView => this.setState({view : newView})
 
   render() {
-    const {view} = this.state;
-    const {authedUser, handleLogin, handleLogout} = this.props;
+    const {authedUser, users, handleLogin, handleLogout} = this.props;
     return (
       <div className="App">
         <div>
-          <p>{authedUser ? `Logged in as ${authedUser}` : 'Logged out'}</p>
+          <p>{authedUser ? `Logged in as ${users[authedUser].name}` : 'Logged out'}</p>
           {authedUser ? <button onClick = {handleLogout}>Log out</button> : <button onClick = {() => handleLogin('owenwest')}>Log In</button>}
         </div>
         <div>
-          <button onClick = {() => this.switchView("home")}>Home</button>
-          <button onClick = {() => this.switchView("leaderboard")}>Leaderboard</button>
-          <button onClick = {() => this.switchView("new poll")}>Post question</button>
+          <Link to = "/">Home</Link>
+          <Link to = "/leaderboard">Leaderboard</Link>
+          <Link to = "/new">Post question</Link>
         </div>
-        
-        {authedUser && view === 'new poll' && <NewPoll/>}
-        {authedUser && view === 'leaderboard' && <LeaderBoard />}
-        {authedUser && view === 'home' && (
-          <>
-            <h2>Polls</h2>
-            <PollsList />
-          </>
-        )}
+        <Route exact path = '/' component = {PollsList} />
+        <Route path = '/leaderboard' component = {LeaderBoard} />
+        <Route path = '/new' component = {NewPoll} />
+        <Route path = '/question/:id' component = {Poll} />
         <div style = {{ height: '128px', width: '128px', borderRadius: '50%', backgroundImage: this.props.users['sarahedo'] ? `url("${this.props.users['sarahedo'].avatarURL}")` : 'none'}} >
         </div>
       </div>
@@ -51,7 +43,5 @@ class App extends Component {
 };
 
 const mapStateToProps = ({authedUser, users}) => ({authedUser, users});
-
-
 
 export default connect(mapStateToProps, {handleInitialData, handleLogin, handleLogout})(App);

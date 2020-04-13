@@ -18,7 +18,14 @@ export const Poll = ({ authedUser, users, poll }) => {
           authedUserVote = {authedUserVote}
         />
       </div>
-      {authedUserVote && <div style = {{border: 'solid 1px', borderTop: 'none', margin: '0 1.5rem 1.5rem', padding: '1rem 0'}}>You voted for {poll[authedUserVote].text}</div>}
+      {authedUserVote && <div style = {{
+        border: 'solid 1px', 
+        borderTop: 'none', 
+        margin: '0 1.5rem 1.5rem', 
+        padding: '1rem 0'
+      }}>
+        You voted for {poll[authedUserVote].text}
+      </div>}
     </div>
   )
 }
