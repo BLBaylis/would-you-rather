@@ -4,7 +4,7 @@ const VoteButton = ({ handleClick, label }) => <button onClick = {handleClick} s
 
 const VoteStatistics = ({option, votes}) => {
   const total = votes.optionOne + votes.optionTwo;
-  return <p>{votes[option]/total * 100}% - {votes[option]} out of {total}</p>
+  return <p>{Number(votes[option]/total * 100).toPrecision(5)}% - {votes[option]} out of {total}</p>
 }
 
 const QuestionInfo = ({ pollId, authedUser, authedUserVote, optionInfo, dispatches }) => {

@@ -21,9 +21,9 @@ class Register extends Component {
   }
 
   render() {
-    const {authedUser} = this.props;
+    const {authedUser, location} = this.props;
     if (authedUser) {
-      return <Redirect to = "/"/>
+      return <Redirect to = {location.state.from.pathname || "/"}/>
     }
     return (
         <div style = {{display: 'inline-flex', flexDirection : 'column', border: 'solid 1px', padding: '2rem', margin: '1.5rem'}}>

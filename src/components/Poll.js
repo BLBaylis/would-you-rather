@@ -4,6 +4,7 @@ import { handleInitialVote, changePollAnswer, handleRemoveVote } from "../action
 
 import AuthorInfo from './AutherInfo'
 import QuestionInfo from './QuestionInfo';
+import Page from './Page'
 
 export const Poll = ({ authedUser, users, polls, match, ...dispatches }) => {
   const {id} = match.params
@@ -45,4 +46,8 @@ const AuthedUserVoteDisplay = ({ choice }) => {
 
 const mapStateToProps = ({authedUser, users, polls}) => ({authedUser, users, polls})
 
-export default connect(mapStateToProps, { handleInitialVote, changePollAnswer, handleRemoveVote })(Poll);
+const ConnectedPoll = connect(mapStateToProps, { handleInitialVote, changePollAnswer, handleRemoveVote })(Poll);
+
+const PollPage = props => <Page><ConnectedPoll {...props}/></Page>
+
+export default PollPage

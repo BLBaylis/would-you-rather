@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
+import {Redirect} from 'react-router-dom'
 import { handleNewPollCreation } from "../actions";
+import Page from './Page'
 
 class NewPoll extends Component {
 
   state = {
     optionOne: '',
-    optionTwo: ''
+    optionTwo: '',
+    toHome: false
   }
 
   onChange = event => this.setState({[event.target.name]: event.target.value})
@@ -17,11 +20,15 @@ class NewPoll extends Component {
     this.props.handleNewPollCreation(this.props.authedUser, optionOne, optionTwo)
     this.setState({
       optionOne: '',
-      optionTwo: ''
+      optionTwo: '',
+      toHome: true
     })
   }
 
   render() {
+    if (this.state.toHome) {
+      return <Redirect to = "/" />
+    }
     return (
       <div style = {{display: 'inline-flex', flexDirection : 'column', border: 'solid 1px', padding: '2rem', margin: '1.5rem'}}>
         <h2 style = {{margin: 0}}>Submit new question</h2>
@@ -41,4 +48,8 @@ class NewPoll extends Component {
 
 const mapStateToProps = ({ authedUser }) => ({ authedUser })
 
-export default connect(mapStateToProps, {handleNewPollCreation})(NewPoll)
+const ConnectedNewPoll = connect(mapStateToProps, {handleNewPollCreation})(NewPoll)
+
+const NewPollPage = props => <Page><ConnectedNewPoll {...props}/></Page>
+
+export default NewPollPage

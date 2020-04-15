@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import User from './User'
+import Page from './Page'
 
 const createLeaderboard = users => {
 
@@ -45,4 +46,8 @@ const LeaderBoard = ({ users }) => {
 
 const mapStateToProps = ({users}) => ({users})
 
-export default connect(mapStateToProps)(LeaderBoard)
+const ConnectedLeaderboard = connect(mapStateToProps)(LeaderBoard)
+
+const LeaderboardPage = props => <Page><ConnectedLeaderboard {...props}/></Page>
+
+export default LeaderboardPage
