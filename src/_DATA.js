@@ -1,3 +1,5 @@
+import avatarPic from "./user-avatar.png";
+
 let users = {
   elsiefoster: {
     id: 'elsiefoster',
@@ -230,6 +232,31 @@ export function _removeAnswer ({ authedUser, qid }) {
       }
 
       res()
+    }, 500)
+  })
+}
+
+export function _saveNewUser ( id, name ) {
+  return new Promise((res, rej) => {
+    setTimeout(() => {
+      if (Object.keys(users).includes(id)) {
+        return rej()
+      }
+
+      const newUser = {
+        id,
+        name,
+        avatarUrl: avatarPic,
+        answers: {},
+        questions: []
+      }
+
+      users = {
+        ...users,
+        [id]: newUser
+      }
+
+      res(newUser)
     }, 500)
   })
 }

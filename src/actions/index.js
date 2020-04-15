@@ -3,7 +3,8 @@ import {
   _getUsers as getUsers, 
   _saveQuestionAnswer as postPollAnswer,
   _saveQuestion as postNewQuestion,
-  _removeAnswer as removeAnswer
+  _removeAnswer as removeAnswer,
+  _saveNewUser as saveNewUser
 } from '../_DATA'
 
 import {
@@ -19,7 +20,8 @@ import {
   addAnswerToUser, 
   updateAnswerInUser, 
   addQuestionToUser, 
-  removeAnswerFromUser
+  removeAnswerFromUser,
+  registerUser
 } from './users'
 
 import {userLogin, userLogout} from './authedUser'
@@ -39,6 +41,13 @@ export const handleLogin = id => async dispatch => {
 }
 
 export { userLogout as handleLogout} 
+
+export const handleRegister = (userId, name) => async dispatch => {
+  console.log('help')
+  await saveNewUser(userId, name)
+  console.log("dipatching")
+  dispatch(registerUser(userId, name))
+}
 
 export const handleInitialVote = (userId, pollId, answer) => async dispatch => {
   await postPollAnswer({

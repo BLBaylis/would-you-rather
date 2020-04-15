@@ -3,8 +3,11 @@ import {
   ADD_ANSWER_TO_USER, 
   UPDATE_ANSWER_IN_USER, 
   ADD_QUESTION_TO_USER,
-  REMOVE_ANSWER_FROM_USER
+  REMOVE_ANSWER_FROM_USER,
+  REGISTER_USER
 } from '../actions/users'
+
+import avatarUrl from "../user-avatar.png";
 
 const answers = (answersState = {}, {type, pollId, selectedAnswer}) => {
   switch (type) {
@@ -52,6 +55,17 @@ const users = (state = {}, action) => {
       return {
         ...state,
         [action.userId]: user(state[action.userId], action)
+      }
+    case REGISTER_USER:
+      return {
+        ...state,
+        [action.userId]: {
+          id: action.userId,
+          name: action.name,
+          avatarUrl,
+          answers: {},
+          questions: []
+        }
       }
     default:
       return state
