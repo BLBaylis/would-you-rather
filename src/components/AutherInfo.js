@@ -8,7 +8,7 @@ const AutherInfo = ({ author, timestamp }) => {
     <div style = {{borderRight: '1px solid', padding: '2rem'}}>
       <span style = {{display: 'block'}}>Asked by {author.id}</span>
       <span style = {{display: 'block', marginBottom: '10px'}}>{submissionDate} {submissionTime[1] === ':' ? `0${submissionTime}` : submissionTime}</span>
-      <img src = {author.avatarURL} style = {{borderRadius: '50%'}} alt = {`${author.name}'s avatar`}/>
+      <img width = '128px' height = '128px' src = {author.avatarURL} style = {{borderRadius: '50%'}} alt = {`${author.name}'s avatar`}/>
     </div>
   )
 }

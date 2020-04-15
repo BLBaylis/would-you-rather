@@ -24,17 +24,17 @@ class NewPoll extends Component {
   render() {
     return (
       <div style = {{display: 'inline-flex', flexDirection : 'column', border: 'solid 1px', padding: '2rem', margin: '1.5rem'}}>
-          <h2 style = {{margin: 0}}>Submit new question</h2>
-          <form onSubmit = {this.handleSubmit}>
-            <h3>Would you rather...</h3>
-            <textarea onChange = {this.onChange} style = {{padding: '8px'}} type = "text" id = "optionOne" name = "optionOne" placeholder = "Write option one"/>
-            <p><strong>or</strong></p>
-            <textarea onChange = {this.onChange} style = {{padding: '8px'}} type = "text" id = "optionTwo" name = "optionTwo" placeholder = "Write option two"/>
-            <div>
-              <button type = "submit">Post Question</button>
-            </div>
-          </form>
-        </div>
+        <h2 style = {{margin: 0}}>Submit new question</h2>
+        <form onSubmit = {this.handleSubmit}>
+          <h3>Would you rather...</h3>
+          <textarea onChange = {this.onChange} style = {{padding: '8px'}} type = "text" id = "optionOne" name = "optionOne" placeholder = "Write option one"/>
+          <p><strong>or</strong></p>
+          <textarea onChange = {this.onChange} style = {{padding: '8px'}} type = "text" id = "optionTwo" name = "optionTwo" placeholder = "Write option two"/>
+          <div>
+            <button type = "submit">Post Question</button>
+          </div>
+        </form>
+      </div>
     )
   }
 }
