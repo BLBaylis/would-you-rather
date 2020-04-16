@@ -5,7 +5,8 @@ class Register extends Component {
 
   state = {
     username: '',
-    name: ''
+    name: '',
+
   }
 
   onChange = ({ target }) => this.setState({[target.name]: target.value})
@@ -16,24 +17,46 @@ class Register extends Component {
     this.props.handleRegister(username, name);
     this.setState({
       username: '',
-      name: ''
+      name: '',
+
     })
   }
 
   render() {
     const {authedUser, location} = this.props;
+    console.log('register', location)
     if (authedUser) {
-      return <Redirect to = {location.state.from.pathname || "/"}/>
+      return <Redirect to = {location.state.from || "/"}/>
     }
     return (
-        <div style = {{display: 'inline-flex', flexDirection : 'column', border: 'solid 1px', padding: '2rem', margin: '1.5rem'}}>
-          <h2 style = {{margin: 0}}>Register</h2>
+        <div style = {{display: 'inline-flex', flexDirection : 'column', padding: '2rem', margin: '1.5rem'}}>
+          <h2 style = {{margin: 0, marginBottom : '1.5rem'}}>Register</h2>
           <form onSubmit = {this.handleSubmit}>
-            <input onChange = {this.onChange} style = {{padding: '8px'}} type = "text" id = "username" name = "username" placeholder = "Username"/>
-            <input onChange = {this.onChange} style = {{padding: '8px'}} type = "text" id = "name" name = "name" placeholder = "Name"/>
-            <div>
-              <button type = "submit">Register</button>
-            </div>
+            <input 
+              onChange = {this.onChange} 
+              style = {{
+                padding: '8px', 
+                margin: '0 5px 1rem 1rem',
+                borderRadius: '2px'
+              }} 
+              type = "text" 
+              id = "username" 
+              name = "username" 
+              placeholder = "Username"
+            />
+            <input 
+              onChange = {this.onChange} 
+              style = {{
+                padding: '8px', 
+                margin: '0 5px 1rem 1rem',
+                borderRadius: '2px'
+              }} 
+              type = "text" 
+              id = "name" 
+              name = "name" 
+              placeholder = "Name"
+            />
+            <button style = {{padding: '8px', marginLeft: '1rem'}} type = "submit">Register</button>
           </form>
           <Link to = '/login'>Already have an account? Click here to log in</Link>
         </div>
