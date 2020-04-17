@@ -9,12 +9,19 @@ class Login extends Component {
 
   onChange = ({target}) => this.setState({username: target.value})
 
-  handleSubmit = event => {
+  handleSubmit = async event => {
     event.preventDefault()
-    this.props.handleLogin(this.state.username);
-    this.setState({
-      username: ''
-    })
+    if (!this.state.username) {
+      return;
+    }
+    try {
+      await this.props.handleLogin(this.state.username);
+    } catch (error) {
+      alert(`Log in failed: ${error.message}`)
+      this.setState({
+        username: ''
+      })
+    }
   }
 
   render() {
@@ -37,6 +44,7 @@ class Login extends Component {
                 margin: '0 5px 1rem 1rem',
                 borderRadius: '2px'
               }}
+              value= {this.state.username}
             />
             <button style = {{padding: '8px'}} type = "submit">Login</button>
           </form>

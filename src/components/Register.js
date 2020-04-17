@@ -10,14 +10,21 @@ class Register extends Component {
 
   onChange = ({ target }) => this.setState({[target.name]: target.value})
 
-  handleSubmit = event => {
+  handleSubmit = async event => {
     event.preventDefault()
     const {username, name} = this.state
-    this.props.handleRegister(username, name);
-    this.setState({
-      username: '',
-      name: '',
-    })
+    if (!username || !name) {
+      return;
+    }
+    try {
+      await this.props.handleRegister(username, name);
+    } catch (error) {
+      alert(`Registration failed: ${error.message}`)
+      this.setState({
+        username: '',
+        name: '',
+      })
+    }
   }
 
   render() {
@@ -40,6 +47,7 @@ class Register extends Component {
               id = "username" 
               name = "username" 
               placeholder = "Username"
+              value = {this.state.username}
             />
             <input 
               onChange = {this.onChange} 
@@ -52,6 +60,7 @@ class Register extends Component {
               id = "name" 
               name = "name" 
               placeholder = "Name"
+              value = {this.state.name}
             />
             <button style = {{padding: '8px', marginLeft: '1rem'}} type = "submit">Register</button>
           </form>

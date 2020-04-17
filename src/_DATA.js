@@ -151,7 +151,10 @@ function formatQuestion ({ optionOneText, optionTwoText, author }) {
 
 export function _saveQuestion (question) {
   return new Promise((res, rej) => {
-    const authedUser = question.author;
+    const {author, optionOneText, optionTwoText} = question
+    if (!optionOneText || !optionTwoText || !author) {
+      rej(new Error('Missing field'))
+    }
     const formattedQuestion = formatQuestion(question);
 
     setTimeout(() => {
@@ -162,9 +165,9 @@ export function _saveQuestion (question) {
       
       users = {
         ...users,
-        [authedUser]: {
-          ...users[authedUser],
-          questions: users[authedUser].questions.concat([formattedQuestion.id])
+        [author]: {
+          ...users[author],
+          questions: users[author].questions.concat([formattedQuestion.id])
         }
       }
 
@@ -239,8 +242,11 @@ export function _removeAnswer ({ authedUser, qid }) {
 export function _saveNewUser ( id, name ) {
   return new Promise((res, rej) => {
     setTimeout(() => {
+      if (!id || !name) {
+        return rej(new Error('Missing Field'))
+      }
       if (Object.keys(users).includes(id)) {
-        return rej()
+        return rej(new Error('Username taken'))
       }
 
       const newUser = {

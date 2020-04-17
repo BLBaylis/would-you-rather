@@ -2,7 +2,6 @@ import React from 'react'
 import Avatar from './Avatar'
 
 const AuthorSection = ({ children, avatarURL, styles }) => {
-  console.log('authorSection', avatarURL)
   return (
     <div style = {{
       padding: '1.5rem',  

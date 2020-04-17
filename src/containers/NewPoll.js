@@ -15,15 +15,20 @@ class NewPoll extends Component {
 
   onChange = event => this.setState({[event.target.name]: event.target.value})
 
-  handleSubmit = event => {
+  handleSubmit = async event => {
     event.preventDefault()
     const {optionOne, optionTwo} = this.state
-    this.props.handleNewPollCreation(this.props.authedUser, optionOne, optionTwo)
-    this.setState({
-      optionOne: '',
-      optionTwo: '',
-      toHome: true
-    })
+    if (!optionOne || !optionTwo) {
+      return alert('Submission failed: Please fill in all fields')
+    }
+    try {
+      await this.props.handleNewPollCreation(this.props.authedUser, optionOne, optionTwo)
+      this.setState({toHome: true})
+    } catch (error) {
+      alert(`Submission failed: ${error.message}`)
+      this.setState({optionOne: '', optionTwo: ''})
+    }
+    
   }
 
   render() {
@@ -42,6 +47,7 @@ class NewPoll extends Component {
               id = "optionOne" 
               name = "optionOne" 
               placeholder = "Option one"
+              value = {this.state.optionOne}
               style = {{
                 padding: '8px', 
                 margin: '1.5rem',
@@ -56,6 +62,7 @@ class NewPoll extends Component {
               id = "optionTwo" 
               name = "optionTwo" 
               placeholder = "Option two"
+              value = {this.state.optionTwo}
               style = {{
                 padding: '8px', 
                 margin: '1.5rem',
