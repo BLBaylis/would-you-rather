@@ -246,7 +246,7 @@ export function _saveNewUser ( id, name ) {
       const newUser = {
         id,
         name,
-        avatarUrl: avatarPic,
+        avatarURL: avatarPic,
         answers: {},
         questions: []
       }

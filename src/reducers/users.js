@@ -7,7 +7,7 @@ import {
   REGISTER_USER
 } from '../actions/users'
 
-import avatarUrl from "../user-avatar.png";
+import avatarURL from "../user-avatar.png";
 
 const answers = (answersState = {}, {type, pollId, selectedAnswer}) => {
   switch (type) {
@@ -62,7 +62,7 @@ const users = (state = {}, action) => {
         [action.userId]: {
           id: action.userId,
           name: action.name,
-          avatarUrl,
+          avatarURL,
           answers: {},
           questions: []
         }
