@@ -5,8 +5,7 @@ class Register extends Component {
 
   state = {
     username: '',
-    name: '',
-
+    name: ''
   }
 
   onChange = ({ target }) => this.setState({[target.name]: target.value})
@@ -18,18 +17,16 @@ class Register extends Component {
     this.setState({
       username: '',
       name: '',
-
     })
   }
 
   render() {
     const {authedUser, location} = this.props;
-    console.log('register', location)
     if (authedUser) {
       return <Redirect to = {location.state.from || "/"}/>
     }
     return (
-        <div style = {{display: 'inline-flex', flexDirection : 'column', padding: '2rem', margin: '1.5rem'}}>
+        <div style = {{display: 'inline-flex', flexDirection : 'column', padding: '2rem', marginTop: '7.5rem'}}>
           <h2 style = {{margin: 0, marginBottom : '1.5rem'}}>Register</h2>
           <form onSubmit = {this.handleSubmit}>
             <input 

@@ -23,7 +23,7 @@ class Login extends Component {
       return <Redirect to = {location.state ? location.state.from.pathname : "/"}/>
     }
     return (
-        <div style = {{display: 'inline-flex', flexDirection : 'column', padding: '2rem', margin: '1.5rem'}}>
+        <div style = {{display: 'inline-flex', flexDirection : 'column', padding: '2rem', marginTop: '7.5rem'}}>
           <h2 style = {{margin: '0', marginBottom : '1.5rem'}}>Login</h2>
           <form onSubmit = {this.handleSubmit}>
             <input 

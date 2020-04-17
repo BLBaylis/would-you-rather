@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
-import {handleInitialData, handleLogin, handleLogout} from './actions'
+import {handleInitialData, handleLogin} from './actions'
 
 import {Route, Redirect, Switch} from 'react-router-dom'
-import LeaderBoard from './components/LeaderBoard'
-import PollsList from './components/PollsList'
-import NewPoll from './components/NewPoll';
-import Poll from './components/Poll'
+import Leaderboard from './containers/Leaderboard'
+import PollsList from './containers/PollsList'
+import NewPoll from './containers/NewPoll';
+import Poll from './containers/Poll'
 import Login from './components/Login'
 import Register from './components/Register'
 import PageNotFound from './components/PageNotFound'
-import './App.css';
 import { handleRegister } from './actions'
 
 const PrivateRoute = ({ component: PassedComponent, authedUser, ...rest }) =>(
@@ -27,18 +26,12 @@ class App extends Component {
   };
 
   render() {
-    const {authedUser, users, handleLogin, handleLogout, handleRegister} = this.props;
+    let {authedUser, handleLogin, handleRegister} = this.props;
     return (
-      <div className="App">
-        {authedUser && (
-          <div>
-            <p>{authedUser && users[authedUser] && `Logged in as ${users[authedUser].name}`}</p>
-            {authedUser && <button onClick = {handleLogout}>Log out</button>}
-          </div>
-        )}
+      <div style = {{textAlign: 'center'}}>
         <Switch>
           <PrivateRoute authedUser = {authedUser} exact path = '/' component = {PollsList} />
-          <PrivateRoute authedUser = {authedUser} path = '/leaderboard' component = {LeaderBoard} />
+          <PrivateRoute authedUser = {authedUser} path = '/leaderboard' component = {Leaderboard} />
           <PrivateRoute authedUser = {authedUser} path = '/new' component = {NewPoll} />
           <PrivateRoute authedUser = {authedUser} path = '/question/:id' component = {Poll} />
           <Route path = '/login' render = {({location}) => (
@@ -62,6 +55,6 @@ class App extends Component {
   };
 };
 
-const mapStateToProps = ({authedUser, users}) => ({authedUser, users});
+const mapStateToProps = ({authedUser}) => ({authedUser});
 
-export default connect(mapStateToProps, {handleInitialData, handleLogin, handleLogout, handleRegister})(App);
+export default connect(mapStateToProps, {handleInitialData, handleLogin, handleRegister})(App);

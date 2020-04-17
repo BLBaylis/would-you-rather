@@ -35,7 +35,7 @@ export const handleInitialData = () => async dispatch => {
 export const handleLogin = id => async dispatch => {
   const users = await getUsers();
   if (!Object.keys(users).includes(id)) {
-    return alert('Log in failed.  Try again')
+    throw new Error('User not found')
   };
   dispatch(userLogin(id))
 }
@@ -43,10 +43,8 @@ export const handleLogin = id => async dispatch => {
 export { userLogout as handleLogout} 
 
 export const handleRegister = (userId, name) => async dispatch => {
-  console.log('help')
-  await saveNewUser(userId, name)
-  console.log("dipatching")
-  dispatch(registerUser(userId, name))
+    await saveNewUser(userId, name)
+    dispatch(registerUser(userId, name))
 }
 
 export const handleInitialVote = (userId, pollId, answer) => async dispatch => {

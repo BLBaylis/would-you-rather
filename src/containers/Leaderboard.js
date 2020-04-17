@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import User from './User'
-import Page from './Page'
+import User from '../components/User'
+import Page from '../components/Page'
 
 const createLeaderboard = users => {
 
@@ -24,11 +24,11 @@ const createLeaderboard = users => {
   }, [])
 }
 
-const LeaderBoard = ({ users }) => {
+const Leaderboard = ({ users }) => {
   const leaderboard = createLeaderboard(users)
   return (
     <div>
-      <h2>Leaderboard</h2>
+      <h1>Leaderboard</h1>
       {leaderboard.map(({id, name, avatarURL, total, position, questions, answers}) => (
         <User
           key = {id}
@@ -46,8 +46,6 @@ const LeaderBoard = ({ users }) => {
 
 const mapStateToProps = ({users}) => ({users})
 
-const ConnectedLeaderboard = connect(mapStateToProps)(LeaderBoard)
+const ConnectedLeaderboard = connect(mapStateToProps)(Leaderboard)
 
-const LeaderboardPage = props => <Page><ConnectedLeaderboard {...props}/></Page>
-
-export default LeaderboardPage
+export default props => <Page><ConnectedLeaderboard {...props}/></Page>

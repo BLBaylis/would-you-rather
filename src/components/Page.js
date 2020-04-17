@@ -1,10 +1,10 @@
 import React from 'react'
-import Nav from "./Nav"
+import Header from "../containers/Header"
 
 const Page = ({ children }) => {
   return (
     <div> 
-      <Nav/>
+      <Header/>
       {children}
     </div>
   )

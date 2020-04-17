@@ -1,37 +1,40 @@
 import React from 'react'
-import {connect} from 'react-redux'
 
-import AuthorInfo from './AutherInfo'
+import AuthorSection from './AuthorSection'
+import QuestionSubmissionInfo from './QuestionSubmissionInfo'
 import { Link } from 'react-router-dom'
+import Card from './Card'
+import PrimaryButton from './PrimaryButton'
+import QuestionInfo from './QuestionInfo'
 
-export const PollPreview = ({ authedUser, users, poll }) => {
+const cardStyles = {
+  display: 'inline-flex', 
+  flexWrap: 'flex', 
+  margin: '1.5rem'
+}
+
+const PollPreview = ({ users, poll }) => {
   const {author, timestamp, optionOne, optionTwo, id: pollId} = poll
   if (!author || !users[author]) {
     return null
   }
+  const authorUser = users[author]
   return (
-    <Link to = {`question/${pollId}`} style = {{ display: 'inline-flex', flexDirection: 'column', margin: '1.5rem'}}>
-      <div style = {{display: 'inline-flex', flexWrap: 'flex', border: '1px solid', marginBottom: 0}}>
-        <AuthorInfo author = {users[author]} timestamp = {timestamp}/>
-        <div style ={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '2rem'}}>
-          <div style = {{width: '100%'}}>Would you rather....</div>
-          <div style = {{ width: '140px'}}>{optionOne.text}</div>
-          <strong style = {{ margin: '0 10px'}}>or</strong>
-          <div style = {{ width: '140px'}}>{optionTwo.text}</div>
-        </div>
-      </div>
-      <button style = {{
-        display: 'block',
-        width: '100%',
-        border: 'solid 1px', 
-        borderTop: 'none', 
-        padding: '1rem 0',
-        cursor: 'pointer'
-      }}>Show full details</button>
-    </Link>
+    <Card styles = {cardStyles}>
+      <AuthorSection avatarURL = {authorUser.avatarURL} >
+        <QuestionSubmissionInfo name = {authorUser.name} timestamp = {timestamp}/>
+      </AuthorSection>
+      <QuestionInfo
+        optionOneChild = {() => <span style = {{ width: '250px'}}>...{optionOne.text}</span>}
+        optionTwoChild = {() => <span style = {{ width: '250px'}}>...{optionTwo.text}</span>}
+      >
+        <Link to = {`question/${pollId}`}>
+          <PrimaryButton styles = {{width: '100%'}}>Details</PrimaryButton>
+        </Link>
+      </QuestionInfo>
+      
+    </Card>
   )
 }
 
-const mapStateToProps = ({authedUser, users}) => ({authedUser, users})
-
-export default connect(mapStateToProps)(PollPreview);
+export default PollPreview;
