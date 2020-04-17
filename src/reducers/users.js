@@ -1,13 +1,13 @@
 import {
-  RECEIVE_INITIAL_USERS, 
-  ADD_ANSWER_TO_USER, 
-  UPDATE_ANSWER_IN_USER, 
+  RECEIVE_INITIAL_USERS,
+  ADD_ANSWER_TO_USER,
+  UPDATE_ANSWER_IN_USER,
   ADD_QUESTION_TO_USER,
   REMOVE_ANSWER_FROM_USER,
   REGISTER_USER
-} from '../actions/users'
+} from '../actions/users';
 
-import avatarURL from "../user-avatar.png";
+import avatarURL from '../user-avatar.png';
 
 const answers = (answersState = {}, {type, pollId, selectedAnswer}) => {
   switch (type) {
@@ -16,14 +16,14 @@ const answers = (answersState = {}, {type, pollId, selectedAnswer}) => {
       return {
           ...answersState,
           [pollId]: selectedAnswer
-      }
+      };
     case REMOVE_ANSWER_FROM_USER:
-      const {[pollId]: pid, ...pollsToKeep} = answersState
-      return pollsToKeep
+      const {[pollId]: pid, ...pollsToKeep} = answersState;
+      return pollsToKeep;
     default:
-      return answersState
+      return answersState;
     }
-}
+};
 
 const user = (userState = {}, action) => {
   switch (action.type) {
@@ -33,21 +33,21 @@ const user = (userState = {}, action) => {
       return {
         ...userState,
         answers: answers(userState.answers, action)
-      }
+      };
     case ADD_QUESTION_TO_USER:
       return {
         ...userState,
         questions: [...userState.questions, action.pollId]
-      }
+      };
     default:
-      return userState
+      return userState;
     }
-}
+};
 
 const users = (state = {}, action) => {
   switch (action.type) {
     case RECEIVE_INITIAL_USERS:
-      return {...state, ...action.users}
+      return {...state, ...action.users};
     case ADD_ANSWER_TO_USER:
     case UPDATE_ANSWER_IN_USER:
     case REMOVE_ANSWER_FROM_USER:
@@ -55,7 +55,7 @@ const users = (state = {}, action) => {
       return {
         ...state,
         [action.userId]: user(state[action.userId], action)
-      }
+      };
     case REGISTER_USER:
       return {
         ...state,
@@ -66,10 +66,10 @@ const users = (state = {}, action) => {
           answers: {},
           questions: []
         }
-      }
+      };
     default:
-      return state
+      return state;
   }
-}
+};
 
-export default users
+export default users;

@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
-import {connect} from 'react-redux'
-import {Redirect} from 'react-router-dom'
-import { handleNewPollCreation } from "../actions";
-import Page from '../components/Page'
-import PrimaryButton from '../components/PrimaryButton'
+import React, { Component } from 'react';
+import {connect} from 'react-redux';
+import {Redirect} from 'react-router-dom';
+import { handleNewPollCreation } from '../actions';
+import Page from '../components/Page';
+import PrimaryButton from '../components/PrimaryButton';
 
 class NewPoll extends Component {
 
@@ -16,24 +16,24 @@ class NewPoll extends Component {
   onChange = event => this.setState({[event.target.name]: event.target.value})
 
   handleSubmit = async event => {
-    event.preventDefault()
-    const {optionOne, optionTwo} = this.state
+    event.preventDefault();
+    const {optionOne, optionTwo} = this.state;
     if (!optionOne || !optionTwo) {
-      return alert('Submission failed: Please fill in all fields')
+      return alert('Submission failed: Please fill in all fields');
     }
     try {
-      await this.props.handleNewPollCreation(this.props.authedUser, optionOne, optionTwo)
-      this.setState({toHome: true})
+      await this.props.handleNewPollCreation(this.props.authedUser, optionOne, optionTwo);
+      this.setState({toHome: true});
     } catch (error) {
-      alert(`Submission failed: ${error.message}`)
-      this.setState({optionOne: '', optionTwo: ''})
+      alert(`Submission failed: ${error.message}`);
+      this.setState({optionOne: '', optionTwo: ''});
     }
-    
+
   }
 
   render() {
     if (this.state.toHome) {
-      return <Redirect to = "/" />
+      return <Redirect to = "/" />;
     }
     return (
       <div style = {{ marginTop: '7.5rem', display: 'inline-flex', flexDirection: 'column'}}>
@@ -41,30 +41,30 @@ class NewPoll extends Component {
         <h3 style = {{margin: 0}}>Would you rather...</h3>
         <form onSubmit = {this.handleSubmit}>
           <div style = {{display: 'flex', alignItems: 'center'}}>
-            <textarea 
-              onChange = {this.onChange} 
-              type = "text" 
-              id = "optionOne" 
-              name = "optionOne" 
+            <textarea
+              onChange = {this.onChange}
+              type = "text"
+              id = "optionOne"
+              name = "optionOne"
               placeholder = "Option one"
               value = {this.state.optionOne}
               style = {{
-                padding: '8px', 
+                padding: '8px',
                 margin: '1.5rem',
                 marginLeft: 0,
                 borderRadius: '2px'
               }}
             />
             <p><strong>or</strong></p>
-            <textarea 
-              onChange = {this.onChange} 
-              type = "text" 
-              id = "optionTwo" 
-              name = "optionTwo" 
+            <textarea
+              onChange = {this.onChange}
+              type = "text"
+              id = "optionTwo"
+              name = "optionTwo"
               placeholder = "Option two"
               value = {this.state.optionTwo}
               style = {{
-                padding: '8px', 
+                padding: '8px',
                 margin: '1.5rem',
                 marginRight: 0,
                 borderRadius: '2px'
@@ -76,12 +76,12 @@ class NewPoll extends Component {
           </div>
         </form>
       </div>
-    )
+    );
   }
 }
 
-const mapStateToProps = ({ authedUser }) => ({ authedUser })
+const mapStateToProps = ({ authedUser }) => ({ authedUser });
 
-const ConnectedNewPoll = connect(mapStateToProps, {handleNewPollCreation})(NewPoll)
+const ConnectedNewPoll = connect(mapStateToProps, {handleNewPollCreation})(NewPoll);
 
-export default props => <Page><ConnectedNewPoll {...props}/></Page>
+export default props => <Page><ConnectedNewPoll {...props}/></Page>;

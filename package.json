@@ -21,7 +21,14 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "react-app",
+    "rules": {
+      "no-trailing-spaces": 2,
+      "quotes": [2, "single"],
+      "semi": [2, "always"]
+
+    }
+    
   },
   "browserslist": {
     "production": [

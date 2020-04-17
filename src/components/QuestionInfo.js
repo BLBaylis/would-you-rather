@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 const QuestionInfo = ({ optionOneChild, optionTwoChild, children }) => (
     <div style ={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '2rem'}}>
@@ -10,6 +10,6 @@ const QuestionInfo = ({ optionOneChild, optionTwoChild, children }) => (
       </div>
       {children}
     </div>
-)
+);
 
-export default QuestionInfo
+export default QuestionInfo;

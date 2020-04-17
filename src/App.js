@@ -1,23 +1,23 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux'
-import {handleInitialData, handleLogin} from './actions'
+import {connect} from 'react-redux';
+import {handleInitialData, handleLogin} from './actions';
 
-import {Route, Redirect, Switch} from 'react-router-dom'
-import Leaderboard from './containers/Leaderboard'
-import PollsList from './containers/PollsList'
+import {Route, Redirect, Switch} from 'react-router-dom';
+import Leaderboard from './containers/Leaderboard';
+import PollsList from './containers/PollsList';
 import NewPoll from './containers/NewPoll';
-import Poll from './containers/Poll'
-import Login from './components/Login'
-import Register from './components/Register'
-import PageNotFound from './components/PageNotFound'
-import { handleRegister } from './actions'
+import Poll from './containers/Poll';
+import Login from './components/Login';
+import Register from './components/Register';
+import PageNotFound from './components/PageNotFound';
+import { handleRegister } from './actions';
 
 const PrivateRoute = ({ component: PassedComponent, authedUser, ...rest }) =>(
     <Route
       {...rest}
-      render={({ location, match }) => authedUser ? <PassedComponent match = {match}/> : <Redirect to = {{pathname: "/login", state: { from: location }}}/>}
+      render={({ location, match }) => authedUser ? <PassedComponent match = {match}/> : <Redirect to = {{pathname: '/login', state: { from: location }}}/>}
     />
-)
+);
 
 class App extends Component {
 
@@ -32,20 +32,18 @@ class App extends Component {
         <Switch>
           <PrivateRoute authedUser = {authedUser} exact path = '/' component = {PollsList} />
           <PrivateRoute authedUser = {authedUser} path = '/leaderboard' component = {Leaderboard} />
-          <PrivateRoute authedUser = {authedUser} path = '/new' component = {NewPoll} />
+          <PrivateRoute authedUser = {authedUser} path = '/add' component = {NewPoll} />
           <PrivateRoute authedUser = {authedUser} path = '/question/:id' component = {Poll} />
-          <Route path = '/login' render = {({location}) => (
-            <Login 
-              authedUser = {authedUser} 
+          <Route path = '/login' render = {() => (
+            <Login
+              authedUser = {authedUser}
               handleLogin = {handleLogin}
-              location = {location}
             />
           )}/>
-          <Route path = '/register' render = {({location}) => (
-            <Register 
-              authedUser = {authedUser} 
+          <Route path = '/register' render = {() => (
+            <Register
+              authedUser = {authedUser}
               handleRegister = {handleRegister}
-              location = {location}
             />
           )} />
           <Route path='*' component = {PageNotFound}/>

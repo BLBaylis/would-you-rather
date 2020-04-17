@@ -1,12 +1,12 @@
-import React from 'react'
-import Avatar from './Avatar'
+import React from 'react';
+import Avatar from './Avatar';
 
 const AuthorSection = ({ children, avatarURL, styles }) => {
   return (
     <div style = {{
-      padding: '1.5rem',  
-      display: 'flex', 
-      justifyContent: 'center', 
+      padding: '1.5rem',
+      display: 'flex',
+      justifyContent: 'center',
       alignItems: 'center',
       flexDirection: 'column',
       backgroundColor: '#0facf3',
@@ -17,7 +17,7 @@ const AuthorSection = ({ children, avatarURL, styles }) => {
       {children}
       <Avatar url = {avatarURL}/>
     </div>
-  )
-}
+  );
+};
 
-export default AuthorSection
+export default AuthorSection;

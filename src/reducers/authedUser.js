@@ -1,5 +1,5 @@
-import {USER_LOGIN, USER_LOGOUT} from '../actions/authedUser'
-import {REGISTER_USER} from '../actions/users'
+import {USER_LOGIN, USER_LOGOUT} from '../actions/authedUser';
+import {REGISTER_USER} from '../actions/users';
 
 const authedUser = (state = null, action) => {
   switch (action.type) {
@@ -8,10 +8,10 @@ const authedUser = (state = null, action) => {
     case USER_LOGOUT:
       return null;
     case REGISTER_USER:
-      return action.userId
+      return action.userId;
     default:
-      return state
+      return state;
   }
-}
+};
 
-export default authedUser
+export default authedUser;
