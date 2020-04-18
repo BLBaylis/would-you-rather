@@ -34,16 +34,18 @@ class App extends Component {
           <PrivateRoute authedUser = {authedUser} path = '/leaderboard' component = {Leaderboard} />
           <PrivateRoute authedUser = {authedUser} path = '/add' component = {NewPoll} />
           <PrivateRoute authedUser = {authedUser} path = '/question/:id' component = {Poll} />
-          <Route path = '/login' render = {() => (
+          <Route path = '/login' render = {({ location }) => (
             <Login
               authedUser = {authedUser}
               handleLogin = {handleLogin}
+              location = {location}
             />
           )}/>
-          <Route path = '/register' render = {() => (
+          <Route path = '/register' render = {({location}) => (
             <Register
               authedUser = {authedUser}
               handleRegister = {handleRegister}
+              location = {location}
             />
           )} />
           <Route path='*' component = {PageNotFound}/>

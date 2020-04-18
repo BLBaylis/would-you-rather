@@ -28,9 +28,10 @@ class Register extends Component {
   }
 
   render() {
-    const {authedUser} = this.props;
+    const {authedUser, location} = this.props;
+    const from = (location && location.state && location.state.from) || null;
     if (authedUser) {
-      return <Redirect to = "/"/>;
+      return <Redirect to = {from.pathname || '/'}/>;
     }
     return (
         <div style = {{display: 'inline-flex', flexDirection : 'column', padding: '2rem', marginTop: '7.5rem'}}>
@@ -64,7 +65,11 @@ class Register extends Component {
             />
             <button style = {{padding: '8px', marginLeft: '1rem'}} type = "submit">Register</button>
           </form>
-          <Link to = '/login'>Already have an account? Click here to log in</Link>
+          <Link to = {{
+            pathname: '/login',
+            state: {from}
+            }}
+          >Already have an account? Click here to log in</Link>
         </div>
     );
   }

@@ -25,9 +25,10 @@ class Login extends Component {
   }
 
   render() {
-    const {authedUser} = this.props;
+    const {authedUser, location} = this.props;
+    const from = (location && location.state && location.state.from) || null;
     if (authedUser) {
-      return <Redirect to = "/"/>;
+      return <Redirect to = {from.pathname || '/'}/>;
     }
     return (
         <div style = {{display: 'inline-flex', flexDirection : 'column', padding: '2rem', marginTop: '7.5rem'}}>
@@ -48,7 +49,12 @@ class Login extends Component {
             />
             <button style = {{padding: '8px'}} type = "submit">Login</button>
           </form>
-          <Link to = "/register">No account? Click here to sign up</Link>
+          <Link
+            to = {{
+              pathname: '/register',
+              state: {from}
+            }}
+          >No account? Click here to sign up</Link>
         </div>
     );
   }

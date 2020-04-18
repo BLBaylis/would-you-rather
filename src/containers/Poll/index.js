@@ -12,14 +12,8 @@ import AuthedUserVoteDisplay from './AuthedUserVoteDisplay';
 
 const Poll = ({ authedUser, users, polls, match, ...dispatches }) => {
   const {id} = match.params;
-  if (!authedUser) {
-    return null;
-  }
   const poll = polls[id];
   const {author, timestamp, optionOne, optionTwo} = poll;
-  if (!author || !users[author]) {
-    return null;
-  }
   const authorUser = users[author];
   const authedUserVote  = users[authedUser].answers[id] || null;
   const optionObj = {optionOne, optionTwo};
