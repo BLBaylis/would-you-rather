@@ -4,7 +4,7 @@ import {
   UPDATE_ANSWER_IN_USER,
   ADD_QUESTION_TO_USER,
   REMOVE_ANSWER_FROM_USER,
-  REGISTER_USER
+  ADD_NEW_USER
 } from '../actions/types';
 
 import avatarURL from '../user-avatar.png';
@@ -56,7 +56,7 @@ const users = (state = {}, action) => {
         ...state,
         [action.userId]: user(state[action.userId], action)
       };
-    case REGISTER_USER:
+    case ADD_NEW_USER:
       return {
         ...state,
         [action.userId]: {

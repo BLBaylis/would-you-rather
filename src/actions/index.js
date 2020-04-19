@@ -21,7 +21,7 @@ import {
   updateAnswerInUser,
   addQuestionToUser,
   removeAnswerFromUser,
-  registerUser
+  addNewUser
 } from './users';
 
 import {userLogin, userLogout} from './authedUser';
@@ -43,8 +43,9 @@ export const handleLogin = id => async dispatch => {
 export { userLogout as handleLogout};
 
 export const handleRegister = (userId, name) => async dispatch => {
-    await saveNewUser(userId, name);
-    dispatch(registerUser(userId, name));
+  await saveNewUser(userId, name);
+  dispatch(addNewUser(userId, name));
+  dispatch(userLogin(userId));
 };
 
 export const handleInitialVote = (userId, pollId, answer) => async dispatch => {

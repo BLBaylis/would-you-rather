@@ -4,7 +4,7 @@ import {
   UPDATE_ANSWER_IN_USER,
   ADD_QUESTION_TO_USER,
   REMOVE_ANSWER_FROM_USER,
-  REGISTER_USER
+  ADD_NEW_USER
 } from './types';
 
 export const receiveInitialUsers = users => ({
@@ -38,8 +38,8 @@ export const addQuestionToUser = (userId, pollId) => ({
   pollId
 });
 
-export const registerUser = (userId, name) => ({
-  type: REGISTER_USER,
+export const addNewUser = (userId, name) => ({
+  type: ADD_NEW_USER,
   userId,
   name
 });

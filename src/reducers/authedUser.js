@@ -1,14 +1,11 @@
-import {USER_LOGIN, USER_LOGOUT} from '../actions/types';
-import {REGISTER_USER} from '../actions/types';
+import {LOGIN_AUTHED_USER, LOGOUT_AUTHED_USER} from '../actions/types';
 
 const authedUser = (state = null, action) => {
   switch (action.type) {
-    case USER_LOGIN:
+    case LOGIN_AUTHED_USER:
       return action.authedUser;
-    case USER_LOGOUT:
+    case LOGOUT_AUTHED_USER:
       return null;
-    case REGISTER_USER:
-      return action.userId;
     default:
       return state;
   }
