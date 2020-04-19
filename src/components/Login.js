@@ -31,6 +31,7 @@ class Login extends Component {
       return <Redirect to = {from.pathname || '/'}/>;
     }
     return (
+      <>
         <div style = {{display: 'inline-flex', flexDirection : 'column', padding: '2rem', marginTop: '7.5rem'}}>
           <h2 style = {{margin: '0', marginBottom : '1.5rem'}}>Login</h2>
           <form onSubmit = {this.handleSubmit}>
@@ -56,6 +57,13 @@ class Login extends Component {
             }}
           >No account? Click here to sign up</Link>
         </div>
+        <p>Some default users you can log in as:</p>
+        <ul style = {{listStyle: 'none'}}>
+          <li>elsiefoster</li>
+          <li>owenwest</li>
+          <li>andreahart</li>
+        </ul>
+      </>
     );
   }
 }
