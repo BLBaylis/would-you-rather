@@ -20,23 +20,18 @@ import {
   addAnswerToUser,
   updateAnswerInUser,
   addQuestionToUser,
-  removeAnswerFromUser,
-  addNewUser
+  removeAnswerFromUser
 } from './users';
 
 import {userLogin, userLogout} from './authedUser';
-
-export const handleInitialData = () => async dispatch => {
-  const [questions, users] = await Promise.all([getQuestions(), getUsers()]);
-  dispatch(receiveInitialPolls(questions));
-  dispatch(receiveInitialUsers(users));
-};
 
 export const handleLogin = id => async dispatch => {
   const users = await getUsers();
   if (!Object.keys(users).includes(id)) {
     throw new Error('User not found');
   };
+  dispatch(receiveInitialPolls(await getQuestions()));
+  dispatch(receiveInitialUsers(users));
   dispatch(userLogin(id));
 };
 
@@ -44,7 +39,9 @@ export { userLogout as handleLogout};
 
 export const handleRegister = (userId, name) => async dispatch => {
   await saveNewUser(userId, name);
-  dispatch(addNewUser(userId, name));
+  const [questions, users] = await Promise.all([getQuestions(), getUsers()]);
+  dispatch(receiveInitialPolls(questions));
+  dispatch(receiveInitialUsers(users));
   dispatch(userLogin(userId));
 };
 

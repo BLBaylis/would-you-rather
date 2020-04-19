@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import {handleInitialData, handleLogin} from './actions';
+import {handleLogin, handleRegister} from './actions';
 
 import {Route, Redirect, Switch} from 'react-router-dom';
 import Leaderboard from './containers/Leaderboard';
@@ -10,7 +10,6 @@ import Poll from './containers/Poll';
 import Login from './components/Login';
 import Register from './components/Register';
 import PageNotFound from './components/PageNotFound';
-import { handleRegister } from './actions';
 
 const PrivateRoute = ({ component: PassedComponent, render, authedUser, ...rest }) => {
   const renderFn = PassedComponent ? (match => <PassedComponent match = {match}/>) : render;
@@ -23,10 +22,6 @@ const PrivateRoute = ({ component: PassedComponent, render, authedUser, ...rest 
 };
 
 class App extends Component {
-
-  componentDidMount() {
-    this.props.handleInitialData();
-  };
 
   render() {
     let {authedUser, polls,  handleLogin, handleRegister} = this.props;
@@ -64,4 +59,4 @@ class App extends Component {
 
 const mapStateToProps = ({authedUser, polls}) => ({authedUser, polls});
 
-export default connect(mapStateToProps, {handleInitialData, handleLogin, handleRegister})(App);
+export default connect(mapStateToProps, {handleLogin, handleRegister})(App);
