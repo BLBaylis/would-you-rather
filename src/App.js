@@ -12,12 +12,15 @@ import Register from './components/Register';
 import PageNotFound from './components/PageNotFound';
 import { handleRegister } from './actions';
 
-const PrivateRoute = ({ component: PassedComponent, authedUser, ...rest }) =>(
+const PrivateRoute = ({ component: PassedComponent, render, authedUser, ...rest }) => {
+  const renderFn = PassedComponent ? (match => <PassedComponent match = {match}/>) : render;
+  return (
     <Route
       {...rest}
-      render={({ location, match }) => authedUser ? <PassedComponent match = {match}/> : <Redirect to = {{pathname: '/login', state: { from: location }}}/>}
+      render={({ location, match }) => authedUser ? renderFn(match) : <Redirect to = {{pathname: '/login', state: { from: location }}}/>}
     />
-);
+  );
+};
 
 class App extends Component {
 
@@ -26,14 +29,18 @@ class App extends Component {
   };
 
   render() {
-    let {authedUser, handleLogin, handleRegister} = this.props;
+    let {authedUser, polls,  handleLogin, handleRegister} = this.props;
     return (
       <div style = {{textAlign: 'center'}}>
         <Switch>
           <PrivateRoute authedUser = {authedUser} exact path = '/' component = {PollsList} />
           <PrivateRoute authedUser = {authedUser} path = '/leaderboard' component = {Leaderboard} />
           <PrivateRoute authedUser = {authedUser} path = '/add' component = {NewPoll} />
-          <PrivateRoute authedUser = {authedUser} path = '/question/:id' component = {Poll} />
+          <PrivateRoute authedUser = {authedUser} path = '/question/:id' render = {match => {
+              const id = match.params.id;
+              return polls[id] ? <Poll poll = {polls[id]} id = {id} /> : <PageNotFound/>;
+            }}
+          />
           <Route path = '/login' render = {({ location }) => (
             <Login
               authedUser = {authedUser}
@@ -55,6 +62,6 @@ class App extends Component {
   };
 };
 
-const mapStateToProps = ({authedUser}) => ({authedUser});
+const mapStateToProps = ({authedUser, polls}) => ({authedUser, polls});
 
 export default connect(mapStateToProps, {handleInitialData, handleLogin, handleRegister})(App);

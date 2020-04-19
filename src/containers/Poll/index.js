@@ -10,9 +10,7 @@ import Card from '../../components/Card';
 import Option from './Option';
 import AuthedUserVoteDisplay from './AuthedUserVoteDisplay';
 
-const Poll = ({ authedUser, users, polls, match, ...dispatches }) => {
-  const {id} = match.params;
-  const poll = polls[id];
+const Poll = ({ authedUser, users, id, poll, match, ...dispatches }) => {
   const {author, timestamp, optionOne, optionTwo} = poll;
   const authorUser = users[author];
   const authedUserVote  = users[authedUser].answers[id] || null;
@@ -51,7 +49,7 @@ const Poll = ({ authedUser, users, polls, match, ...dispatches }) => {
   );
 };
 
-const mapStateToProps = ({authedUser, users, polls}) => ({authedUser, users, polls});
+const mapStateToProps = ({authedUser, users}) => ({authedUser, users});
 
 const ConnectedPoll = connect(mapStateToProps, { handleInitialVote, changePollAnswer, handleRemoveVote })(Poll);
 
