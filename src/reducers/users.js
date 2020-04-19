@@ -3,7 +3,8 @@ import {
   ADD_ANSWER_TO_USER,
   UPDATE_ANSWER_IN_USER,
   ADD_QUESTION_TO_USER,
-  REMOVE_ANSWER_FROM_USER
+  REMOVE_ANSWER_FROM_USER,
+  REMOVE_ALL_USERS
 } from '../actions/types';
 
 const answers = (answersState = {}, {type, pollId, selectedAnswer}) => {
@@ -53,6 +54,8 @@ const users = (state = {}, action) => {
         ...state,
         [action.userId]: user(state[action.userId], action)
       };
+    case REMOVE_ALL_USERS:
+      return {};
     default:
       return state;
   }

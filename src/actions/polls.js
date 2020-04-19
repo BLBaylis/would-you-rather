@@ -3,7 +3,8 @@ import {
   ADD_ANSWER_TO_POLL,
   UPDATE_USER_IN_POLL,
   CREATE_NEW_POLL,
-  REMOVE_VOTE_FROM_POLL
+  REMOVE_VOTE_FROM_POLL,
+  REMOVE_ALL_POLLS
 } from './types';
 
 export const receiveInitialPolls = polls => ({
@@ -35,4 +36,8 @@ export const removeVoteFromPoll = (userId, pollId) => ({
   type: REMOVE_VOTE_FROM_POLL,
   userId,
   pollId
+});
+
+export const removeAllPolls = () => ({
+  type: REMOVE_ALL_POLLS
 });

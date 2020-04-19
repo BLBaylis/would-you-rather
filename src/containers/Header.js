@@ -1,7 +1,9 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {handleLogout} from '../actions';
+import {logoutUser} from '../actions/authedUser';
+import {removeAllPolls} from '../actions/polls';
+import {removeAllUsers} from '../actions/users';
 
 const Header = ({users, authedUser, handleLogout}) => {
   const name = users[authedUser].name;
@@ -23,5 +25,13 @@ const Header = ({users, authedUser, handleLogout}) => {
 
 const mapStateToProps = ({users, authedUser}) => ({users, authedUser});
 
-export default connect(mapStateToProps, {handleLogout})(Header);
+const mapDispatchToProps = dispatch => ({
+  handleLogout: () => {
+    dispatch(logoutUser());
+    dispatch(removeAllPolls());
+    dispatch(removeAllUsers());
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
 

@@ -3,7 +3,8 @@ import {
   ADD_ANSWER_TO_POLL,
   UPDATE_USER_IN_POLL,
   CREATE_NEW_POLL,
-  REMOVE_VOTE_FROM_POLL
+  REMOVE_VOTE_FROM_POLL,
+  REMOVE_ALL_POLLS
 } from '../actions/types';
 
 const option = optionType => (optionState = {}, action) => {
@@ -74,6 +75,8 @@ const polls = (state = {}, action) => {
         ...state,
         [pollId]: poll(state[pollId], action)
       };
+    case REMOVE_ALL_POLLS:
+      return {};
     default:
       return state;
   }

@@ -23,7 +23,7 @@ import {
   removeAnswerFromUser
 } from './users';
 
-import {userLogin, userLogout} from './authedUser';
+import {loginUser} from './authedUser';
 
 export const handleLogin = id => async dispatch => {
   const users = await getUsers();
@@ -32,17 +32,15 @@ export const handleLogin = id => async dispatch => {
   };
   dispatch(receiveInitialPolls(await getQuestions()));
   dispatch(receiveInitialUsers(users));
-  dispatch(userLogin(id));
+  dispatch(loginUser(id));
 };
-
-export { userLogout as handleLogout};
 
 export const handleRegister = (userId, name) => async dispatch => {
   await saveNewUser(userId, name);
   const [questions, users] = await Promise.all([getQuestions(), getUsers()]);
   dispatch(receiveInitialPolls(questions));
   dispatch(receiveInitialUsers(users));
-  dispatch(userLogin(userId));
+  dispatch(loginUser(userId));
 };
 
 export const handleInitialVote = (userId, pollId, answer) => async dispatch => {
