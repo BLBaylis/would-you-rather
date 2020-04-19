@@ -1,5 +1,5 @@
-import {USER_LOGIN, USER_LOGOUT} from '../actions/authedUser';
-import {REGISTER_USER} from '../actions/users';
+import {USER_LOGIN, USER_LOGOUT} from '../actions/types';
+import {REGISTER_USER} from '../actions/types';
 
 const authedUser = (state = null, action) => {
   switch (action.type) {

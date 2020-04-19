@@ -5,7 +5,7 @@ import {
   ADD_QUESTION_TO_USER,
   REMOVE_ANSWER_FROM_USER,
   REGISTER_USER
-} from '../actions/users';
+} from '../actions/types';
 
 import avatarURL from '../user-avatar.png';
 

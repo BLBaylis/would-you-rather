@@ -1,8 +1,10 @@
-export const RECEIVE_INITIAL_POLLS = 'RECEIVE_INITIAL_POLLS';
-export const ADD_ANSWER_TO_POLL = 'ADD_ANSWER_TO_POLL';
-export const UPDATE_USER_IN_POLL = 'UPDATE_USER_IN_POLL';
-export const CREATE_NEW_POLL = 'CREATE_NEW_POLL';
-export const REMOVE_VOTE_FROM_POLL = 'REMOVE_VOTE_FROM_POLL';
+import {
+  RECEIVE_INITIAL_POLLS, 
+  ADD_ANSWER_TO_POLL, 
+  UPDATE_USER_IN_POLL, 
+  CREATE_NEW_POLL,
+  REMOVE_VOTE_FROM_POLL
+} from './types';
 
 export const receiveInitialPolls = polls => ({
   type: RECEIVE_INITIAL_POLLS,

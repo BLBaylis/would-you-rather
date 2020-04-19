@@ -4,7 +4,7 @@ import {
   UPDATE_USER_IN_POLL,
   CREATE_NEW_POLL,
   REMOVE_VOTE_FROM_POLL
-} from '../actions/polls';
+} from '../actions/types';
 
 const option = optionType => (optionState = {}, action) => {
   const {type, selectedAnswer, userId} = action;
